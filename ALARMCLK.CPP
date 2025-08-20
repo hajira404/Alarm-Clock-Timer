@@ -1,0 +1,57 @@
+#include<iostream.h>
+#include<conio.h>
+#include<dos.h>
+#include<iomanip.h>
+#include<stdlib.h>
+void main()
+{
+	long alarm_hour=0 , alarm_min=0 , current_hour=0 , current_min=0 , difference_min=0 , total_seconds=0 , total_alarmmin=0 , total_currentmin=0 ,finalcount_sixtysec, track_countsec ;
+	clrscr();
+	cout<<"Enter the Time you want to buzz the alarm : (time in 24 hour format) "<<endl<<"[HH MM] ";
+	cin>>alarm_hour>>alarm_min;	//it takes the asked time , alarm_hour for hour and alarm_min for minutes
+
+	cout<<"Current Time "<<" (required current time must be lesser than the alarm time) "<<endl<<"[HH MM]";
+	cin>>current_hour>>current_min; 	//it takes the current time , current_hour for hour and current_min for minutes
+
+	total_alarmmin=(alarm_hour*60)+alarm_min;   //total minutes in alarm time
+	total_currentmin=(current_hour*60)+current_min;   //total minutes in current time
+
+	if(total_alarmmin>=total_currentmin)  //checking if current time is lesser than alarm time
+	{
+		     difference_min=total_alarmmin-total_currentmin;	//total minutes
+		     total_seconds=difference_min*60; //total seconds
+
+			for(track_countsec=0;track_countsec<=total_seconds;track_countsec++)
+			{
+			    delay(1000);	//it stops for 1 second
+			    clrscr();
+			    cout<<"You are left with "<<difference_min<<" minutes"<<endl<<track_countsec;
+			    if(track_countsec%60==0)    //1 min has 60sec
+			    {  cout<<"You are left with "<<difference_min--<<" minutes";  //it reduces minutes for every (true) if condition
+				 if(difference_min==0)      //for the last minute
+				 {
+				    for(finalcount_sixtysec=60;finalcount_sixtysec>=0;finalcount_sixtysec--)   //it counts the numbers from 60 to 0
+				    {    if(finalcount_sixtysec==0)
+					 {  cout<<"It is "<<alarm_hour<<":"<<alarm_min<<" wake up";
+					    sound(440);	//start the alarm
+					    delay(10000);  //it buzz the alarm for 10 seconds
+					    nosound();  //stops the alarm
+					    exit(0);
+					 }
+					 else
+					 {
+					    cout<<"Final Countdown "<<finalcount_sixtysec;   //it displays the counts from 60 to 0
+					    delay(1000);
+					    clrscr();
+					 }
+				    }
+				 }
+			    }
+			}
+
+	}
+	else
+	   cout<<"warning : the current time must be lesser than alarm time.."<<endl<<" please check the alarm time and current time"<<endl;
+	cout<<"press any key to continue";
+	getch();
+}

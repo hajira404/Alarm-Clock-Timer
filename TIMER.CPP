@@ -1,0 +1,61 @@
+#include<iostream.h>
+#include<conio.h>
+#include<time.h>
+#include<dos.h>
+
+class Time
+{	public: time_t   input_time;
+		 Time()
+		{
+			input_time=time(NULL);
+		}
+		void set_time();
+};
+
+void Time::set_time()
+{       clrscr();
+	char *sys_time =ctime(&input_time);
+	cout<<sys_time;
+	tm *get_time;
+	get_time=localtime(&input_time);
+	cout<<"Set the alarm time (*required - (HH/MM/SS))"<<endl;
+	cin>>get_time->tm_hour;
+	cin>>get_time->tm_min;
+	cin>>get_time->tm_sec;
+	input_time = mktime(get_time);
+	sys_time=ctime(&input_time);
+	cout<<sys_time;
+
+}
+
+class Alarm:public Time
+{
+	public:void start_alarm();
+	       void time_up()
+	       {
+		  cout<<"Your time is up!!!"<<endl;
+		  sound(440);
+		  delay(10000);
+		  nosound();
+	       }
+};
+
+void Alarm::start_alarm()
+{
+	clrscr();
+	cout<<"You still have time to catch a flight. Grab a coffee!!"<<endl;
+	while(time(NULL)<input_time)
+		delay(1000);
+	clrscr();
+}
+
+void main()
+{
+	Alarm clock;
+	clock.set_time();
+	clock.start_alarm();
+      clock.time_up();
+}
+
+
+
